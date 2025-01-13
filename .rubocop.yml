@@ -24,3 +24,6 @@ Style/AccessModifierDeclarations:
 
 Style/RegexpLiteral:
   Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
