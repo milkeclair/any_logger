@@ -8,7 +8,7 @@ Easier to change LogSubscribers in rails.
 AnyLogger.configure do |config|
   config.logger = Rails::Rack::Logger # default: AnyLogger::Example::RackLogger
   config.swap :action_controller, AnyLogger::Example::ControllerSubscriber
-  config.detach :action_view
+  config.detach :active_record
   config.attach :active_record, MyLogger::ModelSubscriber
 end
 
