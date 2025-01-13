@@ -8,11 +8,11 @@ Gem::Specification.new do |spec|
   spec.authors = ["milkeclair"]
   spec.email = ["milkeclair.black@gmail.com"]
 
-  spec.summary = "swap LogSubscribers in rails"
-  spec.description = "swap LogSubscribers in rails"
+  spec.summary = "easy swap for LogSubscribers in rails"
+  spec.description = "easy swap for LogSubscribers in rails"
   spec.homepage = "https://github.com/milkeclair/any_logger"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.required_ruby_version = ">= 3.4.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
 
@@ -31,6 +31,11 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency "actionpack"
+  spec.add_dependency "activejob"
+  spec.add_dependency "activerecord"
+  spec.add_dependency "activestorage"
+  spec.add_dependency "activesupport"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

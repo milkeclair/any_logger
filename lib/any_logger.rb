@@ -1,8 +1,21 @@
-# frozen_string_literal: true
-
 require_relative "any_logger/version"
+require_relative "any_logger/configuration"
+require_relative "any_logger/initializer"
 
 module AnyLogger
-  class Error < StandardError; end
-  # Your code goes here...
+  def self.configure(&block)
+    block.call(config)
+  end
+
+  def self.start
+    Initializer.run
+  end
+
+  def self.config
+    Configuration.instance
+  end
+
+  def self.subscribers
+    config.config[:subscribers]
+  end
 end
