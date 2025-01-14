@@ -55,6 +55,7 @@ module AnyLogger
 
     def swap(key, klass, target_klass = nil)
       target_klass ||= DEFAULT_SUBSCRIBERS[key]
+      raise KeyError, "Default subscriber not found" unless target_klass
 
       detach(key, target_klass)
       attach(key, klass)
@@ -62,6 +63,7 @@ module AnyLogger
 
     def detach(key, klass = nil)
       klass ||= DEFAULT_SUBSCRIBERS[key]
+      raise KeyError, "Default subscriber not found" unless klass
 
       target_subscriber =
         @config[:subscribers].find { it.subscription == key && it.klass == klass }
