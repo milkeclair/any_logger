@@ -5,7 +5,7 @@ A DSL for simplifying modification of Rails LogSubscribers
 ### Example
 
 ```ruby
-# initializer/any_logger.rb
+# initializers/any_logger.rb
 require "any_logger"
 require "any_logger/example/controller_subscriber"
 
