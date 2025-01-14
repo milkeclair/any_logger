@@ -14,6 +14,12 @@ module AnyLogger
   class Configuration
     include Singleton
 
+    Subscriber = Struct.new(:subscription, :klass, :detachable, :attachable) do
+      def initialize(subscription, klass, detachable: false, attachable: false)
+        super(subscription, klass, detachable, attachable)
+      end
+    end
+
     DEFAULT_SUBSCRIBERS = {
       action_controller: ActionController::LogSubscriber,
       active_record: ActiveRecord::LogSubscriber,
@@ -24,16 +30,14 @@ module AnyLogger
       active_storage: ActiveStorage::LogSubscriber
     }
 
-    DEFAULT_SUBSCRIBER_OPTIONS = { klass: nil, detachable: false, attachable: false }
-
-    private_constant :DEFAULT_SUBSCRIBER_OPTIONS
+    private_constant :DEFAULT_SUBSCRIBERS
 
     attr_reader :config
 
     def initialize
       @config = {
         logger: ::AnyLogger::Example::RackLogger,
-        subscribers: DEFAULT_SUBSCRIBERS.dup.transform_values { |k| DEFAULT_SUBSCRIBER_OPTIONS.dup.merge(klass: k) }
+        subscribers: DEFAULT_SUBSCRIBERS.map { |key, klass| Subscriber.new(key, klass) }
       }
     end
 
@@ -49,24 +53,25 @@ module AnyLogger
       @config[:subscribers]
     end
 
-    def swap(key, klass)
-      return unless @config[:subscribers].key?(key)
+    def swap(key, klass, target_klass = nil)
+      target_klass ||= DEFAULT_SUBSCRIBERS[key]
 
-      @config[:subscribers][key] = { klass: klass, detachable: true, attachable: true }
+      detach(key, target_klass)
+      attach(key, klass)
     end
 
     def detach(key, klass = nil)
-      return unless @config[:subscribers].key?(key)
+      klass ||= DEFAULT_SUBSCRIBERS[key]
 
-      @config[:subscribers][key][:detachable] = true
-      @config[:subscribers][key][:klass] = klass if klass
+      target_subscriber =
+        @config[:subscribers].find { it.subscription == key && it.klass == klass }
+
+      target_subscriber.detachable = true
+      target_subscriber.attachable = false
     end
 
     def attach(key, klass)
-      return unless @config[:subscribers].key?(key)
-
-      @config[:subscribers][key][:attachable] = true
-      @config[:subscribers][key][:klass] = klass
+      @config[:subscribers] << Subscriber.new(key, klass, attachable: true)
     end
   end
 end
