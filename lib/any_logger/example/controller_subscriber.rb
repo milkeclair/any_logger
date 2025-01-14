@@ -57,7 +57,7 @@ module AnyLogger
           duration: round_value(@event.duration),
           view_runtime: round_value(@payload[:view_runtime]),
           db_runtime: round_value(@payload[:db_runtime]),
-          params: expect_unnecessary_params || {},
+          params: except_unnecessary_params || {},
           redirect_to: formatted_redirect_location
         }
       end
