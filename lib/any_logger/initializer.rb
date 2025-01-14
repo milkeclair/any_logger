@@ -10,14 +10,18 @@ module AnyLogger
     end
 
     private_class_method def self.change_subscribers
-      Configuration::DEFAULT_SUBSCRIBERS.each do |key, default_subscriber|
-        subscribers = AnyLogger.config.subscribers
-        detachable = subscribers[key][:detachable]
-        attachable = subscribers[key][:attachable]
-
-        default_subscriber.detach_from(key) if detachable
-        subscribers[key][:klass].attach_to(key) if attachable
+      AnyLogger.config.subscribers.each do
+        detach_subscriber(it) if it.detachable
+        attach_subscriber(it) if it.attachable
       end
+    end
+
+    private_class_method def self.detach_subscriber(subscriber)
+      subscriber.klass.detach_from(subscriber.subscription)
+    end
+
+    private_class_method def self.attach_subscriber(subscriber)
+      subscriber.klass.attach_to(subscriber.subscription)
     end
   end
 end
