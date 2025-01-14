@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    any_logger (0.1.1)
+    any_logger (0.1.2)
+      actionmailer
       actionpack
       activejob
       activerecord
