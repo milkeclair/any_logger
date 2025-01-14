@@ -16,6 +16,6 @@ module AnyLogger
   end
 
   def self.subscribers
-    config.config[:subscribers]
+    config.subscribers
   end
 end
