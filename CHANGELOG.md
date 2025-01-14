@@ -11,3 +11,7 @@
 ## [0.1.3] - 2025-01-15
 
 - AnyLogger.startをデフォルトで不要に変更
+
+## [0.1.4] - 2025-01-15
+
+- Example::ControllerSubscriberのログの改行位置がおかしかったのを修正
