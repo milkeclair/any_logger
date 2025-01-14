@@ -28,65 +28,44 @@ module AnyLogger
       #     params: {"foo" => "bar"}
       #     redirect: "/fuga"
       private def formatted_message
-        <<~MESSAGE
-
-          #{l_method} #{l_action} #{l_for} #{l_at}
-            #{l_path}
-            #{l_status} #{l_duration} (#{l_view_runtime} | #{l_db_runtime})
-            #{"#{l_params}\n" if @payload[:params].present?}#{l_redirect if @headers[:location].present?}
-        MESSAGE
+        e = formatted_log_details
+        # ヒアドキュメントだとparamsとredirectの有無で改行の入り方が変わってしまうので、配列を結合する方法を採用
+        lines = []
+        lines << ""
+        lines << "[#{e[:method]}] #{e[:controller]}##{e[:action]} for: #{e[:ip]} at: #{e[:datetime]}"
+        lines << "  🔍 path: \"#{e[:path]}\""
+        lines << "  🧱 status: #{e[:status]} in #{e[:duration]}ms " \
+                 "(view: #{e[:view_runtime]}ms | db: #{e[:db_runtime]}ms)"
+        lines << "  📝 params: #{e[:params]}" if @payload[:params].present?
+        lines << "  🚀 redirect: \"#{e[:redirect_to]}\"" if @headers[:location].present?
+        lines.join("\n")
       end
 
       private def match_unnecessary_path?
         UNNECESSARY_PATHS.include?(@payload[:path])
       end
 
-      private def l_method
-        "[#{@payload[:method].upcase}]"
+      private def formatted_log_details
+        {
+          method: @payload[:method].upcase,
+          controller: @payload[:controller],
+          action: @payload[:action],
+          ip: @payload[:request].remote_ip,
+          datetime: conversion_event_time_to_datetime,
+          path: @payload[:path],
+          status: @payload[:status],
+          duration: round_value(@event.duration),
+          view_runtime: round_value(@payload[:view_runtime]),
+          db_runtime: round_value(@payload[:db_runtime]),
+          params: expect_unnecessary_params || {},
+          redirect_to: formatted_redirect_location
+        }
       end
 
-      private def l_action
-        "#{@payload[:controller]}##{@payload[:action]}"
-      end
-
-      private def l_for
-        "for: #{@payload[:request].remote_ip}"
-      end
-
-      private def l_at
-        "at: #{conversion_event_time_to_datetime}"
-      end
-
-      private def l_path
-        "🔍 path: \"#{@payload[:path]}\""
-      end
-
-      private def l_status
-        "🧱 status: #{@payload[:status]}"
-      end
-
-      private def l_duration
-        "in #{@event.duration&.round(2) || 0}ms"
-      end
-
-      private def l_view_runtime
-        "view: #{@payload[:view_runtime]&.round(2) || 0}ms"
-      end
-
-      private def l_db_runtime
-        "db: #{@payload[:db_runtime]&.round(2) || 0}ms"
-      end
-
-      private def l_params
-        @payload[:params] = except_unnecessary_params
-        "📝 params: #{@payload[:params]&.inspect || {}}"
-      end
-
-      private def l_redirect
+      private def formatted_redirect_location
         return unless REDIRECT_CODES.any? { @payload[:status] == Rack::Utils.status_code(it) }
 
-        ellipsised_url = ellipsis_scheme_and_authority(@headers[:location])
-        "🚀 redirect: \"#{ellipsised_url}\""
+        ellipsis_scheme_and_authority(@headers[:location])
       end
 
       private def conversion_event_time_to_datetime
@@ -95,6 +74,10 @@ module AnyLogger
         now = Time.now.to_f
 
         Time.at((now - elapsed).to_i)
+      end
+
+      private def round_value(value)
+        value&.round(2) || 0
       end
 
       private def except_unnecessary_params
