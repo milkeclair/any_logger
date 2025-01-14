@@ -14,6 +14,4 @@ AnyLogger.configure do |config|
   config.detach :action_view
   config.attach :active_record, MyLogger::ModelSubscriber
 end
-
-AnyLogger.start
 ```
