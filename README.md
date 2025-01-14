@@ -1,6 +1,6 @@
 # AnyLogger
 
-Easier to change LogSubscribers in rails.
+A DSL for simplifying modification of Rails LogSubscribers
 
 ### Example
 

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["milkeclair"]
   spec.email = ["milkeclair.black@gmail.com"]
 
-  spec.summary = "easy swap for LogSubscribers in rails"
-  spec.description = "easy swap for LogSubscribers in rails"
+  spec.summary = "A DSL for simplifying modification of Rails LogSubscribers"
+  spec.description = "A DSL for simplifying modification of Rails LogSubscribers"
   spec.homepage = "https://github.com/milkeclair/any_logger"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.4.0"
