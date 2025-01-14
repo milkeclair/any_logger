@@ -15,3 +15,7 @@
 ## [0.1.4] - 2025-01-15
 
 - Example::ControllerSubscriberのログの改行位置がおかしかったのを修正
+
+## [0.1.5] - 2025-01-15
+
+- except_unnecessary_paramsをexpectに誤字していたのを修正
