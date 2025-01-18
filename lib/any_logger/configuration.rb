@@ -23,6 +23,10 @@ module AnyLogger
       @config[:logger] = klass
     end
 
+    def swap_default_logger
+      Rails.application.config.middleware.swap(Rails::Rack::Logger, logger)
+    end
+
     def subscriptions
       @config[:subscriptions]
     end
