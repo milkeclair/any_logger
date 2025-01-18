@@ -1,6 +1,7 @@
 require "singleton"
 require_relative "example/rack_logger"
 require_relative "configuration/log_subscriber"
+require_relative "configuration/event"
 
 module AnyLogger
   class Configuration
@@ -33,6 +34,10 @@ module AnyLogger
 
     def subscriber
       LogSubscriber.new
+    end
+
+    def event
+      Event.new
     end
 
     def swap(...)
