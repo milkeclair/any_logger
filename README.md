@@ -1,6 +1,6 @@
 # AnyLogger
 
-A DSL for simplifying modification of Rails LogSubscribers
+A DSL for simplifying modification of Rails ActiveSupport Instrumentation API
 
 ### Example
 
