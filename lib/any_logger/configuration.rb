@@ -21,6 +21,7 @@ module AnyLogger
     end
 
     def logger=(klass)
+      Rails.application.config.middleware.swap(logger, klass)
       @config[:logger] = klass
     end
 
