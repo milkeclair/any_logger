@@ -57,9 +57,9 @@ module AnyLogger
       private def attach_to_event
         # LogSubscriber#attach_toはmonotonic_subscribeなので、それに合わせる
         if @subscriber
-          ActiveSupport::Notifications.subscribe(event_name, @subscriber.new)
+          ActiveSupport::Notifications.monotonic_subscribe(event_name, @subscriber.new)
         else
-          ActiveSupport::Notifications.subscribe(event_name, &@block)
+          ActiveSupport::Notifications.monotonic_subscribe(event_name, &@block)
         end
       end
 
