@@ -34,5 +34,17 @@ module AnyLogger
     def subscriber
       LogSubscriber.new
     end
+
+    def swap(...)
+      subscriber.swap(...)
+    end
+
+    def detach(...)
+      subscriber.detach(...)
+    end
+
+    def attach(...)
+      subscriber.attach(...)
+    end
   end
 end
