@@ -19,3 +19,7 @@
 ## [0.1.5] - 2025-01-15
 
 - except_unnecessary_paramsをexpectに誤字していたのを修正
+
+## [0.2.0] - 2025-01-19
+
+- process_action.action_controllerのような個別のイベントに対応
