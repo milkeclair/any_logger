@@ -21,7 +21,7 @@ module AnyLogger
         @event ||= event
 
         push_detach_to_subscriptions
-        ActiveSupport::Notifications.unsubscribe(event_name)
+        detach_from_event
       end
 
       def attach(organizer, event, subscriber = nil, &block)
@@ -48,6 +48,10 @@ module AnyLogger
 
       private def push_attach_to_subscriptions
         AnyLogger.config.subscriptions << Attach.new(@organizer, @event, @subscriber || @block)
+      end
+
+      private def detach_from_event
+        ActiveSupport::Notifications.unsubscribe(event_name)
       end
 
       private def attach_to_event
