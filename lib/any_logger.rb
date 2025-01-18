@@ -16,7 +16,7 @@ module AnyLogger
     Configuration.instance
   end
 
-  def self.subscribers
-    config.subscribers
+  def self.subscriptions
+    config.subscriptions
   end
 end
