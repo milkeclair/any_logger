@@ -1,6 +1,5 @@
 require_relative "any_logger/version"
 require_relative "any_logger/configuration"
-require_relative "any_logger/initializer"
 
 module AnyLogger
   def self.configure(&block)
