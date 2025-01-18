@@ -21,7 +21,7 @@ module AnyLogger
         @event ||= event
 
         push_detach_to_subscriptions
-        ActiveSupport::Notifications.unsubscribe(event_name)
+        detach_from_event
       end
 
       def attach(organizer, event, subscriber = nil, &block)
@@ -35,8 +35,7 @@ module AnyLogger
         validate_subscriber_is_callable
 
         push_attach_to_subscriptions
-        # LogSubscriber#attach_toはmonotonic_subscribeなので、それに合わせる
-        ActiveSupport::Notifications.monotonic_subscribe(event_name, subscriber.new, &block)
+        attach_to_event
       end
 
       private def event_name
@@ -49,6 +48,19 @@ module AnyLogger
 
       private def push_attach_to_subscriptions
         AnyLogger.config.subscriptions << Attach.new(@organizer, @event, @subscriber || @block)
+      end
+
+      private def detach_from_event
+        ActiveSupport::Notifications.unsubscribe(event_name)
+      end
+
+      private def attach_to_event
+        # LogSubscriber#attach_toはmonotonic_subscribeなので、それに合わせる
+        if @subscriber
+          ActiveSupport::Notifications.monotonic_subscribe(event_name, @subscriber.new)
+        else
+          ActiveSupport::Notifications.monotonic_subscribe(event_name, &@block)
+        end
       end
 
       private def validate_provided_block_or_subscriber
