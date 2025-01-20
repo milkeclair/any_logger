@@ -23,3 +23,9 @@
 ## [0.2.0] - 2025-01-19
 
 - process_action.action_controllerのような個別のイベントに対応
+
+## [0.2.1] - 2025-01-20
+
+- Example::ControllerSubscriberのparamsに関するログが、paramsが空の場合にも出力される問題を修正
+- config.subscriber.detach :action_viewをしたときに、
+  ActionView::LogSubscriberがデフォルトでsubscribeするイベントをunsubscribeするように変更
