@@ -29,3 +29,7 @@
 - Example::ControllerSubscriberのparamsに関するログが、paramsが空の場合にも出力される問題を修正
 - config.subscriber.detach :action_viewをしたときに、
   ActionView::LogSubscriberがデフォルトでsubscribeするイベントをunsubscribeするように変更
+
+## [0.2.2] - 2025-01-20
+
+- DEFAULT_ATTACHED_EVENTS[organizer]が複数の場合に、一つ目だけdetachされる問題を修正
