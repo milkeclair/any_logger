@@ -43,6 +43,7 @@ module AnyLogger
 
         push_detach_to_subscriptions
         @detach_target.detach_from(@organizer)
+        event.detaches_default_attached_for(@organizer)
       end
 
       def attach(organizer, subscriber)
@@ -63,6 +64,10 @@ module AnyLogger
 
       private def validate_detach_target_is_set
         raise KeyError, "#{@organizer}'s default subscriber not found" unless @detach_target
+      end
+
+      private def event
+        AnyLogger.config.event
       end
     end
   end
