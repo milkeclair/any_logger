@@ -33,7 +33,10 @@ module AnyLogger
       def detaches_default_attached_for(organizer)
         return unless DEFAULT_ATTACHED_EVENTS[organizer]
 
-        DEFAULT_ATTACHED_EVENTS[organizer].each { |event| detach(organizer, event) }
+        DEFAULT_ATTACHED_EVENTS[organizer].each do |event|
+          @event = event # detachではメモ化されている@eventを使うので、ここで更新しておく
+          detach(organizer, event)
+        end
       end
 
       def attach(organizer, event, subscriber = nil, &block)
