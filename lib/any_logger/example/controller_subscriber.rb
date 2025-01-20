@@ -36,7 +36,7 @@ module AnyLogger
         lines << "  🔍 path: \"#{e[:path]}\""
         lines << "  🧱 status: #{e[:status]} in #{e[:duration]}ms " \
                  "(view: #{e[:view_runtime]}ms | db: #{e[:db_runtime]}ms)"
-        lines << "  📝 params: #{e[:params]}" if @payload[:params].present?
+        lines << "  📝 params: #{e[:params]}" if e[:params].present?
         lines << "  🚀 redirect: \"#{e[:redirect_to]}\"" if @headers[:location].present?
         lines.join("\n")
       end
