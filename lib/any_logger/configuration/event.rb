@@ -6,6 +6,12 @@ module AnyLogger
       Detach = Struct.new(:organizer, :event)
       Attach = Struct.new(:organizer, :event, :subscriber)
 
+      DEFAULT_ATTACHED_EVENTS = {
+        action_view: [:render_template, :render_layout]
+      }
+
+      private_constant :DEFAULT_ATTACHED_EVENTS
+
       def swap(organizer, event, subscriber = nil, &block)
         @organizer = organizer
         @event = event
@@ -22,6 +28,12 @@ module AnyLogger
 
         push_detach_to_subscriptions
         detach_from_event
+      end
+
+      def detaches_default_attached_for(organizer)
+        return unless DEFAULT_ATTACHED_EVENTS[organizer]
+
+        DEFAULT_ATTACHED_EVENTS[organizer].each { |event| detach(organizer, event) }
       end
 
       def attach(organizer, event, subscriber = nil, &block)
