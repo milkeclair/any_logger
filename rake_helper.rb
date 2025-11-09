@@ -11,7 +11,6 @@ class RakeHelper
   def self.init_rake_tasks
     RSpec::Core::RakeTask.new(:spec) { |task| task.verbose = false }
     RuboCop::RakeTask.new
-    YARD::Rake::YardocTask.new
   end
 
   def self.build_gem
