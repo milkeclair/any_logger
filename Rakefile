@@ -3,7 +3,6 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
-require "yard"
 require_relative "rake_helper"
 
 desc "analysis"
@@ -17,9 +16,6 @@ task :analysis do
 
   puts "--- rubocop ---"
   Rake::Task[:rubocop].invoke
-
-  puts "--- yard ---"
-  Rake::Task[:yard].invoke
 end
 
 desc "push to github packages and rubygems"
