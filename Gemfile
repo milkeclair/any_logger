@@ -5,11 +5,9 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in any_logger.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
-
-gem "rspec", "~> 3.0"
-
-gem "rubocop", "~> 1.21"
+gem "rake", require: false
+gem "rspec", require: false
+gem "rubocop", require: false
 
 gem "actionpack"
 gem "actionmailer"
