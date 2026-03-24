@@ -17,4 +17,8 @@ RSpec.configure do |config|
   end
 
   config.include Support::Helper
+
+  config.before do
+    reset_any_logger_config
+  end
 end
