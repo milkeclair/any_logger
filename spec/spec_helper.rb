@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require "any_logger"
+require "any_logger/example/controller_subscriber"
+require_relative "support/mock_application"
+require_relative "support/helper"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -12,4 +15,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include Support::Helper
 end
