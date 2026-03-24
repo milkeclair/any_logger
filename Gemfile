@@ -13,3 +13,7 @@ gem "activejob"
 gem "activerecord"
 gem "activestorage"
 gem "activesupport"
+
+group :test do
+  gem "railties", require: false
+end
