@@ -1,7 +1,7 @@
 require "singleton"
 require_relative "example/rack_logger"
-require_relative "configuration/log_subscriber"
 require_relative "configuration/event"
+require_relative "configuration/log_subscriber"
 
 module AnyLogger
   class Configuration
@@ -16,10 +16,6 @@ module AnyLogger
       }
     end
 
-    def logger
-      @config[:logger]
-    end
-
     def logger=(klass)
       Rails.application.config.middleware.swap(logger, klass)
       @config[:logger] = klass
@@ -29,28 +25,14 @@ module AnyLogger
       Rails.application.config.middleware.swap(Rails::Rack::Logger, logger)
     end
 
-    def subscriptions
-      @config[:subscriptions]
-    end
+    def logger = @config[:logger]
+    def subscriptions = @config[:subscriptions]
 
-    def subscriber
-      LogSubscriber.new
-    end
+    def subscriber = LogSubscriber.new
+    def event = Event.new
 
-    def event
-      Event.new
-    end
-
-    def swap(...)
-      subscriber.swap(...)
-    end
-
-    def detach(...)
-      subscriber.detach(...)
-    end
-
-    def attach(...)
-      subscriber.attach(...)
-    end
+    def swap(...) = subscriber.swap(...)
+    def detach(...) = subscriber.detach(...)
+    def attach(...) = subscriber.attach(...)
   end
 end
